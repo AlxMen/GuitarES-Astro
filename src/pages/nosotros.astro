@@ -1,0 +1,43 @@
+---
+import { Image } from "astro:assets";
+import Layout from "../layouts/Layout.astro";
+import nosotros from "/public/nosotros.jpg";
+---
+
+<Layout title="Nosotros" description="Pagina de Nosotros">
+  <main class="contenedor">
+    <h1 class="heading">Nosotros</h1>
+    <div class="contenido">
+      <Image src={nosotros} alt="imagen nsotros" />
+      <div>
+        <p>
+          Suspendisse efficitur, nunc ac tempor mollis, ligula arcu blandit
+          felis, vehicula fringilla lorem mi non massa. Nunc rutrum maximus
+          turpis quis dictum. Donec congue est quis elit maximus venenatis.
+          Aenean aliquam tellus vitae gravida finibus. Mauris bibendum, ante
+          vitae accumsan maximus, lacus tellus rutrum leo, et ultrices nibh
+          magna non eros. 
+        </p>
+
+        <p>
+          Sed efficitur commodo vestibulum. Mauris ex lectus, sodales in
+          placerat a, tempus eget ante. Aliquam iaculis elit non tellus
+          ultricies ultrices sed sed nibh.
+        </p>
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .contenido {
+    display: grid;
+    gap: 4rem;
+  }
+  @media (min-width: 768px) {
+    .contenido {
+      grid-template-columns: repeat(2, 1fr);
+      align-items: center;
+    }
+  }
+</style>

@@ -1,0 +1,30 @@
+---
+import Layout from "../../layouts/Layout.astro"
+
+export async function getStaticPaths() {
+  const url = `${import.meta.env.PUBLIC_API_URL}/guitarras?populate=imagen`;
+  const respuesta = await fetch(url)
+  const { data } = respuesta.json()
+
+  return data.map(guitarra => ({
+    params: {
+      id: guitarra.attributes.url
+    },
+    props: {
+      guitarra: guitarra.attributes
+    }
+  }))
+}
+---
+
+<Layout title="Inicio" description="Pagina de Inicio">
+	<main class="guitarra">
+		<h1>Ruting dinamico</h1>
+		
+	</main>
+</Layout>
+
+
+<style>
+
+</style>
