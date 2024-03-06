@@ -1,14 +1,72 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import Layout from "../layouts/Layout.astro";
+import Guitarra from "../components/Guitarra.astro";
+import Post from "../components/Post.astro";
+import Curso from "../components/Curso.astro"
+
+const urlGuitarras = `${import.meta.env.PUBLIC_API_URL}/guitarras?populate=imagen`;
+const urlPosts = `${import.meta.env.PUBLIC_API_URL}/posts?populate=imagen`;
+const urlCurso = `${import.meta.env.PUBLIC_API_URL}/curso?populate=imagen`;
+
+
+const [resGuitarra, resPost, resCurso] = await Promise.all([
+  fetch(urlGuitarras),
+  fetch(urlPosts),
+	fetch(urlCurso)
+]);
+
+const [{ data: guitarras }, { data: posts }, {data: curso}] = await Promise.all([
+  resGuitarra.json(),
+  resPost.json(),
+	resCurso.json()
+]);
+
+
 ---
 
 <Layout title="Inicio" description="Pagina de Inicio">
-	<main class="contenedor">
-		<h1 class="heading">Inicio</h1>
-		
-	</main>
+  <main class="contenedor">
+    <h1 class="heading">Nuestra Coleccion</h1>
+    <div class="grid">
+      {
+        guitarras?.map((guitarra) => (
+          <Guitarra
+            nombre={guitarra.attributes.nombre}
+            descripcion={guitarra.attributes.descripcion}
+            url={guitarra.attributes.url}
+            precio={guitarra.attributes.precio}
+            imagen={
+              guitarra.attributes.imagen.data.attributes.formats.medium.url
+            }
+          />
+        ))
+      }
+    </div>
+
+		<Curso 
+			titulo={curso.attributes.titulo}
+			contenido={curso.attributes.contenido}
+			imagen={curso.attributes.imagen.data.attributes.url}
+		/>
+
+    <section class="contenedor">
+      <h2 class="heading">Blog</h2>
+
+      <div class="grid">
+        {
+          posts?.map((post) => (
+            <Post
+              Titulo={post.attributes.Titulo}
+              publishedAt={post.attributes.publishedAt}
+              cotenido={post.attributes.cotenido}
+              imagen={post.attributes.imagen.data.attributes.formats.medium.url}
+              url={post.attributes.url}
+            />
+          ))
+        }
+      </div>
+    </section>
+  </main>
 </Layout>
 
-<style>
-	
-</style>
+<style></style>
